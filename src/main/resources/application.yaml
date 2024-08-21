@@ -1,0 +1,30 @@
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: strict
+#    context-path: /shop
+#  port: 8080
+
+
+spring:
+  application:
+    name: Shop_Personal
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;database=Shop_Personal;encrypt=true;trustServerCertificate=true
+    username: sa
+    password: son123
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+#            client-id: 684202675439-boo5kqa669cjp365otshl2j1g0vl7mdq.apps.googleusercontent.com
+#            client-secret: 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
+            client-id: 1081834741943-aptj0i7p3t2a1vq96hqokd9br56g010k.apps.googleusercontent.com
+            client-secret: rnvDOhdDm6cYeTTahKmX25mX
