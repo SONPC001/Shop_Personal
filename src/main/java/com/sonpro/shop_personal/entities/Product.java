@@ -16,7 +16,7 @@ public class Product {
     String description;
     String image;
     String name;
-    BigDecimal price;
+    Double price;
     Float weight;
 
     @ManyToOne(fetch = FetchType.EAGER)

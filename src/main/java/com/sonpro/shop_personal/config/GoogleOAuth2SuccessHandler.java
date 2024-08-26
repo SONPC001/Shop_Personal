@@ -1,8 +1,6 @@
 package com.sonpro.shop_personal.config;
 
 import com.sonpro.shop_personal.dto.request.AccountRequest;
-import com.sonpro.shop_personal.entities.Account;
-import com.sonpro.shop_personal.entities.Contact;
 import com.sonpro.shop_personal.entities.Role;
 import com.sonpro.shop_personal.services.AccountService;
 import com.sonpro.shop_personal.services.ContactService;
@@ -12,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.DefaultRedirectStrategy;

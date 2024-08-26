@@ -21,10 +21,12 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
+    private final ContactRepository contactRepository;
 
     public AccountServiceImpl(AccountRepository accountRepository, RoleRepository roleRepository, ContactRepository contactRepository) {
         this.accountRepository = accountRepository;
         this.roleRepository = roleRepository;
+        this.contactRepository = contactRepository;
     }
 
     private final BCryptPasswordEncoder encoder =
@@ -58,17 +60,16 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account saveAccount(AccountRequest request) {
         Account ac = new Account();
-        return getAccount(request, ac);
+        getAc_Ct(request, ac);
+
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleRepository.findById(3).orElse(null));
+        ac.setRoles(roles);
+
+        return accountRepository.save(ac);
     }
 
-    @Override
-    public Account updateAccount(int id, AccountRequest request) {
-        Account ac = new Account();
-        ac.setId(id);
-        return getAccount(request, ac);
-    }
-
-    private Account getAccount(AccountRequest request, Account ac) {
+    private void getAc_Ct(AccountRequest request, Account ac) {
         ac.setUsername(request.getUsername());
         ac.setEmail(request.getEmail());
         ac.setPassword(encoder.encode(request.getPassword()));
@@ -78,10 +79,36 @@ public class AccountServiceImpl implements AccountService {
         contact.setAccount(ac);
         contacts.add(contact);
         ac.setContacts(contacts);
+    }
 
-        List<Role> roles = new ArrayList<>();
-        roles.add(roleRepository.findById(2).orElse(null));
-        roles.add(roleRepository.findById(3).orElse(null));
+    @Override
+    public Account updateAccount(AccountRequest request) {
+        Account ac = new Account();
+        ac.setId(request.getId());
+        getAc_Ct(request, ac);
+
+        List<Role> roles = new ArrayList<>(request.getRoles());
+        ac.setRoles(roles);
+
+        return accountRepository.save(ac);
+    }
+
+    @Override
+    public Account update_ac(AccountRequest request) {
+        Account ac = new Account();
+        ac.setId(request.getId());
+        ac.setUsername(request.getUsername());
+        ac.setEmail(request.getEmail());
+        ac.setPassword(encoder.encode(request.getPassword()));
+        List<Contact> contacts = new ArrayList<>(
+                contactRepository.findAllByAccount_Id(
+                        request.getId()
+                )
+        );
+        ac.setContacts(contacts);
+        List<Role> roles = new ArrayList<>(
+                roleRepository.findAllByAccounts(ac)
+        );
         ac.setRoles(roles);
 
         return accountRepository.save(ac);

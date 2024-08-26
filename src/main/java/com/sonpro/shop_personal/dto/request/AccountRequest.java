@@ -2,6 +2,8 @@ package com.sonpro.shop_personal.dto.request;
 
 import com.sonpro.shop_personal.entities.Contact;
 import com.sonpro.shop_personal.entities.Role;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +18,7 @@ import java.util.List;
 @ToString
 public class AccountRequest implements Serializable {
 
+    Integer id;
     @NotBlank(message = "Username không được để trống !")
     @Size(message = "Username phải có độ dài từ 8 đến 32 ký tự !", min = 8, max = 32)
     String username;

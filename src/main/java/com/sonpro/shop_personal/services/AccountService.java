@@ -15,7 +15,10 @@ public interface AccountService {
 
     Optional<Account> getById(int id);
     Account saveAccount(AccountRequest request);
-    Account updateAccount(int id, AccountRequest request);
+    Account updateAccount(AccountRequest request);
+
+    Account update_ac(AccountRequest request);
+
     boolean deleteById(int id);
 
     Optional<Account> getAccountByEmail(String email);

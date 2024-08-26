@@ -24,4 +24,9 @@ public class ContactServiceImpl implements ContactService {
     public Optional<Contact> findContactById(int id) {
         return repository.findById(id);
     }
+
+    @Override
+    public List<Contact> getAllContactByAccountId(int id) {
+        return repository.findAllByAccount_Id(id);
+    }
 }

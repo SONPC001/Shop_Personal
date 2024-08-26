@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -40,7 +42,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**", "/forgotpassword", "/register", "/login").permitAll()
+                        .requestMatchers("/", "/shop/**", "/forgotpassword", "/register", "/login").permitAll()
                         .requestMatchers("/admin/**").hasAnyRole("STAFF", "ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "STAFF", "ADMIN")
                         .anyRequest().authenticated()
@@ -51,7 +53,7 @@ public class SecurityConfig {
                         .passwordParameter("password")
                                 .loginProcessingUrl("/login")
                         .failureUrl("/login?error")
-                        .defaultSuccessUrl("/login")
+                        .defaultSuccessUrl("/home")
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login")
@@ -72,4 +74,16 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(
+                "/resources/**",
+                "/templates/**",
+                "/static/**",
+                "/images/**",
+                "/productImages/**",
+                "/css/**",
+                "/js/**");
+    }//bo qua authen cac package nay
 }
